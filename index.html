@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timer — the social network where time = reward</title>
+  <meta name="description" content="Watch till the end, like, and earn points. Points convert to QNX later. Anti-bot, AI moderation, referrals." />
+  <meta name="theme-color" content="#0b0f1a" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Timer — time works for you" />
+  <meta property="og:description" content="One view → one like (after 100% watch). Earn points and later QNX." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/og-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Nav -->
+  <header class="nav" role="navigation" aria-label="Main">
+    <div class="container row" style="justify-content:space-between">
+      <a class="row logo" href="#top">
+        <div class="logo-badge" aria-hidden="true">∞</div>
+        <span>Timer</span>
+      </a>
+      <nav class="row" style="gap:8px">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#rewards">Rewards</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#faq">FAQ</a>
+        <a href="#cta" class="cta-nav">Get early access</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top">
+    <section class="hero container grid hero-grid">
+      <div class="fade" style="animation-delay:.05s">
+        <div class="badge">⏳ Time works for you</div>
+        <h1>The social network where <em>full watch</em> = like = points</h1>
+        <p class="muted">One view → one like (only after 100% watch time). Separate rewards for likes, reposts, and comments. Maximum reward for invites. Anti-bot + AI moderation + auto-translate.</p>
+        <div class="row" style="gap:12px; flex-wrap:wrap; margin-top:14px">
+          <a class="btn btn-primary" href="#cta">Get early access</a>
+          <a class="btn btn-ghost" href="#features">Learn more</a>
+        </div>
+        <div class="pill" style="margin-top:14px">🛡️ Anti-bot • 🤖 AI moderation • 🌐 Auto-translate</div>
+      </div>
+
+      <!-- Demo card -->
+      <div class="fade" style="animation-delay:.15s">
+        <div class="card" aria-live="polite">
+          <div class="badge">Live demo</div>
+          <div style="margin-top:12px">
+            <strong>Video #421 • 2:00</strong>
+            <div class="muted">Watch progress: <span id="demoPercent">0%</span></div>
+            <progress id="demoProgress" value="0" max="100" aria-label="Watch progress"></progress>
+            <div class="row" style="gap:10px; margin-top:10px; flex-wrap:wrap">
+              <button id="playBtn" class="btn btn-primary">▶ Play demo</button>
+              <button id="likeBtn" class="btn btn-ghost" disabled aria-disabled="true">👍 Like (unlock at 100%)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px; display:flex; gap:12px; align-items:center">
+          <div class="step-num" aria-hidden="true">∞</div>
+          <div>
+            <div><strong>Points → tokens</strong></div>
+            <div class="muted">Points live off-chain first. Later, 1:1 conversion to QNX (Polygon) via smart contract.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section container">
+      <h2>Core features</h2>
+      <p class="muted">Fair rules, anti-fraud protection, and clear rewards.</p>
+      <div class="grid features" style="margin-top:14px">
+        <div class="card feature"><h3>One view = one like</h3><p class="muted">The like button appears only after 100% watch time.</p></div>
+        <div class="card feature"><h3>Separated rewards</h3><p class="muted">Likes, reposts, and comments are counted independently.</p></div>
+        <div class="card feature"><h3>Max reward for invites</h3><p class="muted">Referral links and codes bring the highest points.</p></div>
+        <div class="card feature"><h3>Anti-bot + AI moderation</h3><p class="muted">Fraud detection via watch-time, behavior, and spam signals.</p></div>
+        <div class="card feature"><h3>Auto-translate</h3><p class="muted">Posts are shown in the user’s language automatically.</p></div>
+        <div class="card feature"><h3>Privacy-first</h3><p class="muted">Minimal personal data, full control for the user.</p></div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="section container">
+      <h2>How it works</h2>
+      <div class="grid steps" style="margin-top:14px">
+        <div class="card"><div class="step-num">1</div><h3>Watch till the end</h3><p class="muted">Only 100% watch time unlocks the right to like.</p></div>
+        <div class="card"><div class="step-num">2</div><h3>Like & earn points</h3><p class="muted">Separate points for like, repost, and comment.</p></div>
+        <div class="card"><div class="step-num">3</div><h3>Invite friends</h3><p class="muted">Referral rewards dominate the earnings.</p></div>
+        <div class="card"><div class="step-num">4</div><h3>Convert to tokens</h3><p class="muted">Points convert to QNX on Polygon when the bridge opens.</p></div>
+      </div>
+    </section>
+
+    <!-- Rewards + Referral -->
+    <section id="rewards" class="section container">
+      <h2>Rewards</h2>
+      <p class="muted">Example values for the MVP (subject to tuning by DAO):</p>
+
+      <div class="kpi" style="margin-top:12px">
+        <div class="card"><strong>+1</strong><span class="muted">Like (after 100%)</span></div>
+        <div class="card"><strong>+2</strong><span class="muted">Comment</span></div>
+        <div class="card"><strong>+3</strong><span class="muted">Repost/Share</span></div>
+        <div class="card"><strong>+15</strong><span class="muted">Valid referral</span></div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.1fr .9fr; margin-top:16px; gap:16px">
+        <div class="card">
+          <strong>Demo balance</strong>
+          <div class="muted">Local only — for preview.</div>
+          <div class="row" style="gap:10px; margin-top:10px; flex-wrap:wrap">
+            <button id="addLike" class="btn btn-ghost">+ Like</button>
+            <button id="addComment" class="btn btn-ghost">+ Comment</button>
+            <button id="addShare" class="btn btn-ghost">+ Share</button>
+            <button id="addReferral" class="btn btn-ghost">+ Referral</button>
+            <button id="resetPts" class="btn" style="border:1px solid var(--stroke)">Reset</button>
+          </div>
+          <div class="card" style="margin-top:12px">
+            <div><strong>Total points:</strong> <span id="points">0</span></div>
+            <div class="muted">Simulated conversion: <span id="simQnx">0</span> QNX</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <strong>Referral link generator</strong>
+          <div class="row" style="gap:10px; margin-top:10px; flex-wrap:wrap">
+            <input id="refName" placeholder="yourname" class="input" />
+            <button id="makeRef" class="btn btn-primary">Generate</button>
+          </div>
+          <div id="refOut" class="pill copy" title="Click to copy" style="margin-top:10px; display:none"></div>
+          <div class="muted" style="margin-top:6px">Example format: https://timer.app/r/yourname</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="section container">
+      <h2>Roadmap</h2>
+      <div class="grid" style="grid-template-columns:1fr 1fr; gap:16px; margin-top:10px">
+        <div class="card road">
+          <strong>Phase 1 — Foundation (Month 0–1)</strong>
+          <ul class="muted">
+            <li>Landing + waitlist + brand kit</li>
+            <li>MVP feed (images/video), auth, profiles</li>
+            <li>Watch-time gating for likes</li>
+            <li>Basic anti-bot & AI moderation</li>
+          </ul>
+        </div>
+        <div class="card road">
+          <strong>Phase 2 — Points economy (Month 2–3)</strong>
+          <ul class="muted">
+            <li>Full points ledger (like/share/comment/invite)</li>
+            <li>Referral system + fraud filters</li>
+            <li>International UI with auto-translate</li>
+          </ul>
+        </div>
+        <div class="card road">
+          <strong>Phase 3 — Token bridge (Month 3–4)</strong>
+          <ul class="muted">
+            <li>Polygon integration (QNX)</li>
+            <li>On-chain claim: points → QNX</li>
+            <li>Wallet connect inside the app</li>
+          </ul>
+        </div>
+        <div class="card road">
+          <strong>Phase 4 — Scale & DAO (Month 5+)</strong>
+          <ul class="muted">
+            <li>AI assistant, creator tools, NFT badges</li>
+            <li>DAO voting for parameters</li>
+            <li>Marketplace & direct transfers in QNX</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section container faq">
+      <h2>FAQ</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:10px">
+        <details><summary>Why “one view = one like”?</summary><p class="muted">It prevents spam and rewards real attention. The like unlocks only after 100% watch time.</p></details>
+        <details><summary>How do points convert to QNX?</summary><p class="muted">At launch, points are off-chain. Later, a smart contract opens a 1:1 claim window to mint QNX on Polygon for verified points.</p></details>
+        <details><summary>How do you stop bots?</summary><p class="muted">Behavior + timing analysis, device checks, anomaly scores, rate limits, and manual AI review for flagged cases.</p></details>
+        <details><summary>Is my data private?</summary><p class="muted">Privacy-first: minimal personal data, opt-in analytics, clear export/delete options.</p></details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="section container">
+      <div class="card" style="display:grid; gap:10px; text-align:center">
+        <h2>Join the waitlist</h2>
+        <p class="muted">Be the first to get access when the MVP opens.</p>
+        <div class="row" style="justify-content:center; gap:10px; flex-wrap:wrap">
+          <input id="email" type="email" placeholder="you@example.com" class="input" />
+          <button id="joinBtn" class="btn btn-primary">Request invite</button>
+        </div>
+        <div id="thanks" class="muted" style="display:none">Thanks! We’ll reach out soon.</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer container">
+    <div class="row" style="justify-content:space-between; gap:10px; flex-wrap:wrap">
+      <div>© <span id="year"></span> Timer — time works for you.</div>
+      <div class="muted">Anti-bot • AI moderation • Auto-translate • QNX on Polygon</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js" defer></script>
+</body>
+</html>
