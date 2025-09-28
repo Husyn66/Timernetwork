@@ -60,3 +60,19 @@ progress::-webkit-progress-value{background:linear-gradient(90deg,var(--brand1),
 .fade{opacity:0; transform:translateY(8px); animation:fade .8s ease forwards}
 @keyframes fade{to{opacity:1; transform:none}}
 @media (max-width:860px){ .hero-grid{grid-template-columns:1fr} nav{display:none} }
+/* === Accessibility & UX improvements === */
+:focus-visible { outline: 2px solid var(--brand2); outline-offset: 3px; border-radius: 8px; }
+a, button, input { transition: box-shadow .2s ease, transform .2s ease; }
+a:hover, button:hover { box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset; }
+
+/* Reduced motion: отключаем анимации, если пользователь против */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Мелкие улучшения для инпутов и копируемых пилюль */
+.input:focus-visible { box-shadow: 0 0 0 2px var(--brand2); }
+.copy:hover { background: rgba(255,255,255,.06); }
+
+/* Кнопки: легкое нажатие */
+button:active, .btn:active { transform: translateY(1px); }
