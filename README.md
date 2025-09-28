@@ -1,43 +1,70 @@
-⏳ Timernetwork
+# ⏳ Timernetwork — the social network where time = reward
 
-Timernetwork is a next-generation social network where time = reward.
-User engagement (likes, views, and activity) is converted into points, and in the future — into real tokens (QNX on Polygon).
+**Timernetwork** — это следующего поколения социальная сеть, где **ваше время превращается в ценность**.  
+Каждый просмотр, лайк, комментарий и приглашение друзей вознаграждается очками, которые в дальнейшем можно будет конвертировать в токены **QNX (Polygon)**.
 
-🚀 MVP (0–90 days)
+---
 
-Like-to-points reward system
+## 🚀 Core Features
+- ✅ One view = one like (только после 100% просмотра)  
+- ✅ Отдельные награды за лайки, комментарии и репосты  
+- ✅ Максимальная награда за рефералов  
+- ✅ AI-модерация и антибот-защита  
+- ✅ Автоматический перевод постов на язык пользователя  
+- ✅ Приватность и контроль данных  
 
-Basic AI assistant for moderation and recommendations
+---
 
-Simple and responsive web interface
+## 📊 Rewards (MVP пример)
+- 👍 Like (после 100% просмотра): **+1 point**  
+- 💬 Comment: **+2 points**  
+- 🔁 Repost / Share: **+3 points**  
+- 👥 Valid referral: **+15 points**
 
-🔮 Future Development
+Очки можно будет обменять **1:1 на QNX** (через смарт-контракт в Polygon).
 
-Points exchangeable for QNX tokens
+---
 
-AI-powered content moderation
+## 🗺️ Roadmap
+**Phase 1 — Foundation (Month 0–1):**
+- Landing + waitlist + бренд  
+- MVP feed (фото/видео), авторизация, профили  
+- Watch-time gating для лайков  
+- Базовая антибот и AI-модерация  
 
-Automatic multi-language translation
+**Phase 2 — Points economy (Month 2–3):**
+- Полный учёт очков (лайк/шар/коммент/инвайт)  
+- Система рефералов + антифрод-фильтры  
+- Интернационализация + авто-перевод  
 
-Mobile application (Flutter/React Native)
+**Phase 3 — Token bridge (Month 3–4):**
+- Интеграция Polygon (QNX)  
+- Смарт-контракт для claim: points → QNX  
+- Wallet connect в приложении  
 
-NFT badges for active users
+**Phase 4 — Scale & DAO (Month 5+):**
+- AI-ассистент, инструменты для создателей, NFT-бейджи  
+- DAO-голосование за параметры  
+- Marketplace и переводы в QNX  
 
-DAO governance for community decisions
+---
 
-📊 Current Status
+## ⚙️ Tech Stack
+- **Next.js 15 + React 19 + Tailwind 4**  
+- **Supabase** (auth, база, real-time)  
+- **Polygon (QNX)** — блокчейн-уровень  
+- **AI moderation + translation** (MVP: локальные фильтры, потом — ML)  
 
-✅ MVP website launched
+---
 
-🚧 Tokenization in progress
+## 📥 Установка
+```bash
+# Клонировать репозиторий
+git clone https://github.com/husyn66/timernetwork.git
+cd timernetwork
 
-🧠 AI integration planned
+# Установить зависимости
+npm install
 
-👥 Community
-
-Telegram: Timernetwork Community
-
-Twitter: @TimernetworkApp
- (coming soon)
-
-⚡ Timernetwork — the social network where your time truly matters.
+# Запуск dev-сервера
+npm run dev
