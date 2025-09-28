@@ -1,95 +1,159 @@
-// Year
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById('year').textContent = new Date().getFullYear();
-});
+/* ===== helpers ===== */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-// --- Persistence (demo only) ---
-const LS_KEY = "timer-demo-state";
-const state = JSON.parse(localStorage.getItem(LS_KEY) || '{"points":0,"watch":0}');
-const save = () => localStorage.setItem(LS_KEY, JSON.stringify(state));
+/* Year in footer */
+(() => {
+  const yearEl = $('#year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+})();
 
-// --- Demo watch-to-like with minimal anti-bot cadence ---
-let playing = false, timer = null;
-const prog = document.getElementById('demoProgress');
-const pct = document.getElementById('demoPercent');
-const playBtn = document.getElementById('playBtn');
-const likeBtn = document.getElementById('likeBtn');
+/* ===== Hero demo: watch progress + like unlock ===== */
+(() => {
+  const playBtn = $('#playBtn');
+  const likeBtn = $('#likeBtn');
+  const progress = $('#demoProgress');
+  const percentEl = $('#demoPercent');
 
-function renderWatch() {
-  prog.value = state.watch;
-  pct.textContent = state.watch + '%';
-  likeBtn.disabled = state.watch < 100 || likeBtn.dataset.locked === "1";
-  likeBtn.setAttribute('aria-disabled', likeBtn.disabled ? 'true' : 'false');
-}
-renderWatch();
+  if (!playBtn || !likeBtn || !progress || !percentEl) return;
 
-playBtn.addEventListener('click', () => {
-  if (playing) return;
-  playing = true;
-  playBtn.textContent = '⏸ Playing...';
-  timer = setInterval(() => {
-    // cadence: grow 2% every 120ms; stop at 100
-    state.watch = Math.min(100, state.watch + 2);
-    save(); renderWatch();
-    if (state.watch >= 100) {
-      clearInterval(timer); playing = false; playBtn.textContent = '▶ Replay';
+  let timer = null;
+  // Ускоренная демо-модель «2 минуты видео» -> ~2 сек
+  const durationMs = 2000; 
+  const stepMs = 50;
+
+  function setProgress(p) {
+    const clamped = Math.max(0, Math.min(100, p));
+    progress.value = clamped;
+    percentEl.textContent = clamped + '%';
+
+    if (clamped >= 100) {
+      likeBtn.disabled = false;
+      likeBtn.setAttribute('aria-disabled', 'false');
+      likeBtn.textContent = '👍 Like (unlocked)';
+      clearInterval(timer);
+      timer = null;
     }
-  }, 120);
-});
+  }
 
-// like once per full watch (locks for 10s)
-likeBtn.addEventListener('click', () => {
-  if (likeBtn.disabled) return;
-  bump(1);
-  likeBtn.dataset.locked = "1";
-  likeBtn.disabled = true;
-  setTimeout(() => { likeBtn.dataset.locked = "0"; renderWatch(); }, 10_000);
-  alert('Like counted! +1 point');
-});
+  playBtn.addEventListener('click', () => {
+    if (timer) return; // уже идёт
+    likeBtn.disabled = true;
+    likeBtn.setAttribute('aria-disabled', 'true');
+    likeBtn.textContent = '👍 Like (unlock at 100%)';
+    setProgress(0);
+    const step = 100 / (durationMs / stepMs);
+    timer = setInterval(() => {
+      setProgress(progress.value + step);
+      if (progress.value >= 100) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }, stepMs);
+  });
+})();
 
-// --- Points simulator ---
-let pointsSpan = document.getElementById('points');
-let simQnx = document.getElementById('simQnx');
+/* ===== Rewards demo: points and simulated QNX ===== */
+(() => {
+  const likeBtn = $('#addLike');
+  const commentBtn = $('#addComment');
+  const shareBtn = $('#addShare');
+  const referralBtn = $('#addReferral');
+  const resetBtn = $('#resetPts');
+  const pointsEl = $('#points');
+  const simQnxEl = $('#simQnx');
 
-function renderPoints() {
-  pointsSpan.textContent = state.points;
-  simQnx.textContent = (state.points * 0.1).toFixed(2);
-}
-function bump(v) { state.points += v; save(); renderPoints(); }
-renderPoints();
+  if (!pointsEl || !simQnxEl) return;
 
-document.getElementById('addLike').onclick = ()=>bump(1);
-document.getElementById('addComment').onclick = ()=>bump(2);
-document.getElementById('addShare').onclick = ()=>bump(3);
-document.getElementById('addReferral').onclick = ()=>bump(15);
-document.getElementById('resetPts').onclick = ()=>{ state.points = 0; save(); renderPoints(); };
+  const REWARDS = { like: 1, comment: 2, share: 3, referral: 15 };
+  let points = 0;
 
-// --- Referral generator ---
-const makeRef = document.getElementById('makeRef');
-const refName = document.getElementById('refName');
-const refOut = document.getElementById('refOut');
+  function render() {
+    pointsEl.textContent = String(points);
+    // Демо-конвертация 1:1 — как в тексте
+    simQnxEl.textContent = String(points);
+  }
 
-makeRef.addEventListener('click', ()=>{
-  const n = (refName.value||'yourname').trim().toLowerCase().replace(/[^a-z0-9_-]/g,'');
-  const url = `https://timer.app/r/${n}`;
-  refOut.textContent = url;
-  refOut.style.display = 'inline-flex';
-});
-refOut.addEventListener('click', async ()=>{
-  try {
-    await navigator.clipboard.writeText(refOut.textContent);
-    const prev = refOut.textContent;
-    refOut.textContent = 'Copied!';
-    setTimeout(()=>{ refOut.textContent = prev; }, 1200);
-  } catch {}
-});
+  likeBtn && likeBtn.addEventListener('click', () => { points += REWARDS.like; render(); });
+  commentBtn && commentBtn.addEventListener('click', () => { points += REWARDS.comment; render(); });
+  shareBtn && shareBtn.addEventListener('click', () => { points += REWARDS.share; render(); });
+  referralBtn && referralBtn.addEventListener('click', () => { points += REWARDS.referral; render(); });
+  resetBtn && resetBtn.addEventListener('click', () => { points = 0; render(); });
 
-// --- Waitlist (mock) ---
-document.getElementById('joinBtn').addEventListener('click', ()=>{
-  document.getElementById('thanks').style.display='block';
-});
+  render();
+})();
 
-// --- PWA: register service worker (optional offline) ---
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
+/* ===== Referral link generator ===== */
+(() => {
+  const nameInput = $('#refName');
+  const makeBtn = $('#makeRef');
+  const out = $('#refOut');
+
+  if (!nameInput || !makeBtn || !out) return;
+
+  function makeLink(name) {
+    const clean = String(name || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    if (!clean) return '';
+    return `https://timernetwork.app/r/${clean}`;
+  }
+
+  makeBtn.addEventListener('click', () => {
+    const link = makeLink(nameInput.value);
+    if (!link) {
+      out.style.display = 'none';
+      out.textContent = '';
+      return;
+    }
+    out.textContent = link;
+    out.style.display = 'inline-flex';
+  });
+
+  out.addEventListener('click', async () => {
+    const text = out.textContent || '';
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      out.textContent = 'Copied ✅ ' + text;
+      setTimeout(() => { out.textContent = text; }, 1200);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      out.textContent = 'Copied ✅ ' + text;
+      setTimeout(() => { out.textContent = text; }, 1200);
+    }
+  });
+})();
+
+/* ===== Waitlist form (demo) ===== */
+(() => {
+  const email = $('#email');
+  const joinBtn = $('#joinBtn');
+  const thanks = $('#thanks');
+
+  if (!email || !joinBtn || !thanks) return;
+
+  joinBtn.addEventListener('click', () => {
+    const v = String(email.value || '').trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if (!ok) {
+      email.focus();
+      email.setAttribute('aria-invalid', 'true');
+      email.style.boxShadow = '0 0 0 2px var(--danger)';
+      setTimeout(() => (email.style.boxShadow = ''), 1200);
+      return;
+    }
+    email.value = '';
+    thanks.style.display = 'block';
+    setTimeout(() => { thanks.style.display = 'none'; }, 2500);
+  });
+})();
+
+/* ===== Service Worker registration (если есть sw.js) ===== */
+(() => {
+  if ('serviceWorker' in navigator) {
+    // sw.js должен лежать в корне (рядом с index.html)
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+})();
